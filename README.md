@@ -1,50 +1,76 @@
-# React + TypeScript + Vite
+# Calendar Web Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 프로젝트 설명
 
-Currently, two official plugins are available:
+이 프로젝트는 React, Ant Design (antd), Vite, 그리고 TypeScript를 사용하여 개발된 캘린더 웹 애플리케이션입니다. 사용자는 달력에서 날짜를 선택하고, 선택한 날짜에 일정을 추가할 수 있습니다. 추가된 일정은 로컬 스토리지에 저장되며, 새로고침 후에도 일정이 유지됩니다. 다크 모드와 라이트 모드 간의 테마 전환 기능이 제공되며, 모든 일정을 삭제할 수 있는 기능도 포함되어 있습니다.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 소스 빌드 및 실행 방법 메뉴얼
 
-## Expanding the ESLint configuration
+### 1. 필수 요구사항
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- Node.js (v14 이상 권장)
+- Yarn (v1.22 이상)
 
-- Configure the top-level `parserOptions` property like this:
+### 2. 설치 및 실행
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+1. **프로젝트 클론**
+   
+   ```bash
+   git clone https://github.com/offbeat24/personal_calendar.git
+   cd calendar-web-app
+   ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+2. **패키지 설치**
+   
+   Yarn을 사용하여 프로젝트에 필요한 패키지를 설치합니다.
+   
+   ```bash
+   yarn install
+   ```
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+3. **로컬 서버 실행**
+   
+   Vite 개발 서버를 실행하여 로컬에서 애플리케이션을 확인할 수 있습니다.
+   
+   ```bash
+   yarn dev
+   ```
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+   실행 후, 브라우저에서 `http://localhost:3000`으로 접속하면 애플리케이션을 사용할 수 있습니다.
+
+### 3. 빌드
+   
+   프로덕션용으로 애플리케이션을 빌드하려면 다음 명령어를 실행합니다.
+   
+   ```bash
+   yarn build
+   ```
+
+   빌드 결과물은 `dist` 폴더에 생성됩니다.
+
+## 주력으로 사용한 컴포넌트에 대한 설명 및 사용 이유
+
+### 1. `AntdCalendar` (캘린더 컴포넌트)
+
+- **설명**: 이 컴포넌트는 Ant Design에서 제공하는 캘린더 컴포넌트로, 날짜 선택 및 월별, 연도별로 날짜를 표시하는 기능을 제공합니다.
+- **사용 이유**: 사용자 인터페이스의 핵심인 달력 기능을 간편하게 구현하기 위해 사용했습니다. Ant Design의 캘린더 컴포넌트는 기본적인 스타일링과 기능을 제공하며, 이벤트 뱃지와 같은 추가적인 UI 요소를 쉽게 커스터마이징할 수 있습니다.
+
+### 2. `EventModal` (일정 추가 모달 컴포넌트)
+
+- **설명**: 이 컴포넌트는 사용자가 특정 날짜에 일정을 추가할 수 있도록 하는 모달입니다. 모달 안에서는 이벤트 타입, 시간, 장소, 설명을 입력할 수 있습니다.
+- **사용 이유**: 일정 추가를 위한 UX를 개선하기 위해 모달을 사용했습니다. 모달을 통해 사용자는 화면을 전환하지 않고도 손쉽게 일정을 추가할 수 있습니다. 입력 유효성 검사를 통해 사용자가 필수 정보를 빠뜨리지 않도록 안내하는 기능도 포함되었습니다.
+
+### 3. `Scheduler` (일정 관리 컴포넌트)
+
+- **설명**: 선택된 날짜의 일정을 보여주고, 새로운 일정을 추가할 수 있는 컴포넌트입니다. 로컬 스토리지에서 데이터를 불러와 일정 관리를 담당합니다.
+- **사용 이유**: 선택된 날짜의 일정을 쉽게 조회하고 관리할 수 있는 기능을 제공하기 위해 사용되었습니다. 특히 로컬 스토리지와의 연동을 통해 데이터의 지속성을 보장합니다.
+
+### 4. `GNB` (글로벌 내비게이션 바)
+
+- **설명**: 이 컴포넌트는 상단의 글로벌 내비게이션 바로, 로고, 테마 전환 버튼, 모든 일정 삭제 버튼이 포함되어 있습니다.
+- **사용 이유**: 사용자가 애플리케이션의 핵심 기능에 빠르게 접근할 수 있도록 돕기 위해 사용되었습니다. 테마 전환 기능을 쉽게 구현하고, 모든 일정을 한번에 삭제할 수 있는 버튼을 제공하여 사용자 편의성을 높였습니다.
+
+### 5. `ThemeToggle` (테마 토글 스위치)
+
+- **설명**: 이 컴포넌트는 라이트 모드와 다크 모드 간의 테마 전환을 위해 사용됩니다.
+- **사용 이유**: 사용자에게 테마 전환 옵션을 제공하여, 개인적인 취향에 맞게 UI를 조정할 수 있도록 하기 위해 사용되었습니다. Ant Design의 스위치 컴포넌트를 사용하여 간단하면서도 직관적인 인터페이스를 구현했습니다.
