@@ -88,6 +88,9 @@ const App: React.FC = () => {
             />
           </div>
         </div>
+        <footer style={{ textAlign: 'center', padding: '10px 0', backgroundColor: isDarkMode ? '#333' : '#f0f2f5', color: isDarkMode ? '#fff' : '#000' }}>
+          Created by SIHYUN PARK
+        </footer>
       </div>
     </ThemeProvider>
   );
